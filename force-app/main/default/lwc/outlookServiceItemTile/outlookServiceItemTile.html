@@ -1,0 +1,40 @@
+<template>
+    <div class="slds-var-m-around_small">
+        <div class="slds-card__body">
+            <div class="slds-card slds-card_boundary">
+                <lightning-card>
+                    <h1 slot="title">Case #{serviceItem.Case_Number__c}</h1>
+                    <lightning-button label="Select" slot="actions"></lightning-button>
+                    <div slot="footer" class="slds-text-align_left">
+                        <lightning-layout>
+                            <lightning-layout-item flexibility="auto" size="3">
+                                <div class="header-column">
+                                    <p class="field-title" title="Plaintiff Name">Name</p>
+                                    <p>{serviceItem.Plaintiff_First_Name__c} {serviceItem.Plaintiff_Last_Name__c}</p>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto" size="3">
+                                <div class="header-column">
+                                    <p class="field-title" title="Plaintiff Origin">Origin</p>
+                                    <p>{serviceItem.Plantiff_Country_Of_Origin__c}</p>
+                                </div>
+                            </lightning-layout-item>                            
+                            <lightning-layout-item flexibility="auto" size="3">
+                                <div class="header-column">
+                                    <p class="field-title" title="Plaintiff Birthdate">Birthdate</p>
+                                    <p>{serviceItem.Plaintiff_Birthdate__c}</p>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto" size="3">
+                                <div class="header-column">
+                                    <p class="field-title" title="Attorney Name">Attorney Name</p>
+                                    <p>{serviceItem.Attorney_Name__c}</p>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </lightning-card> 
+            </div>
+        </div>
+    </div>
+</template>

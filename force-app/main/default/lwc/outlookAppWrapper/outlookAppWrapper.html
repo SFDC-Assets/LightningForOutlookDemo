@@ -1,0 +1,38 @@
+<template>
+    <lightning-layout horizontal-align="space">
+        <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+            <img src={outlookHeaderUrl} style="width:100%;">
+        </lightning-layout-item>
+    </lightning-layout>     
+    <lightning-layout horizontal-align="space">
+        <lightning-layout-item size="3" small-device-size="3" medium-device-size="3" large-device-size="3">
+            <img src={outlookLeftPaneUrl} style="width:100%;">
+        </lightning-layout-item>
+        <lightning-layout-item size="6" small-device-size="6" medium-device-size="6" large-device-size="6" style="background-color:#fff;">
+            <div class="slds-var-m-around_medium">
+                <h1>
+                    <strong>{subject}</strong>
+                </h1>
+            </div>
+            <div class="slds-var-m-around_medium slds-var-p-around_small slds-border_top slds-border_bottom">
+                <lightning-tile type="media">
+                    <lightning-icon slot="media" size="large" icon-name="action:email"></lightning-icon>
+                    <p class="slds-truncate" title="From"><strong>{people.from.name} &lt;{people.from.email}&gt;</strong></p>
+                    <p class="slds-truncate" title="Date">Monday, October 26, 2020 at 12:51 PM</p>
+                </lightning-tile>
+            </div>
+            <div class="slds-var-m-around_medium" style="height:100%;">
+                {messageBody}
+            </div>  
+        </lightning-layout-item>
+        <lightning-layout-item size="3" small-device-size="3" medium-device-size="3" large-device-size="3" style="background-color:#F9F9FA;" class="slds-border_left">
+            <img src={outlookRightPaneHeaderUrl} style="width:100%;">
+            <c-outlook subject={subject} people={people} message-body={messageBody}></c-outlook>
+        </lightning-layout-item>
+    </lightning-layout>   
+    <lightning-layout horizontal-align="space">
+        <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+            <img src={outlookFooterUrl} style="width:100%;">
+        </lightning-layout-item>
+    </lightning-layout>      
+</template>

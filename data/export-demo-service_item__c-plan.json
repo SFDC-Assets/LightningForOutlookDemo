@@ -1,0 +1,10 @@
+[
+    {
+        "sobject": "service_item__c",
+        "saveRefs": true,
+        "resolveRefs": false,
+        "files": [
+            "export-demo-service_item__cs.json"
+        ]
+    }
+]
