@@ -1,4 +1,9 @@
 <template>
+    <template if:true={user}>
+        <div class="slds-card__body slds-var-m-around_x-small">
+            <h1>Hi {userUsername}</h1>
+        </div>
+    </template>
     <div class={flexipageRegionWidth}>
         <div class="slds-card__body slds-var-m-around_x-small">
             <div class="slds-card slds-card_boundary">

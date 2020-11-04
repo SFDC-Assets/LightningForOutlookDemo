@@ -1,6 +1,15 @@
 import {LightningElement,api,track,wire} from 'lwc';
+import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import ServiceItemLookupByEmail from "@salesforce/apex/LWCOutlookController.ServiceItemLookupByEmail";
 import ServiceItemSearch from "@salesforce/apex/LWCOutlookController.ServiceItemSearch";
+import Id from '@salesforce/user/Id';
+
+import SERVICE_ITEM_OBJECT from '@salesforce/schema/Service_Item__c';
+import EMAIL_MESSAGE_OBJECT from '@salesforce/schema/EmailMessage';
+import TASK_OBJECT from '@salesforce/schema/Task';
+
+import USER_USERNAME_FIELD from '@salesforce/schema/User.Username';
+
 
 export default class Outlook extends LightningElement {
     @api messageBody;
@@ -20,16 +29,24 @@ export default class Outlook extends LightningElement {
     @track searchSalesforceResults;
     @track hasSalesforceResults = false;
 
-
     @track PCQSSearchCompleted = false;
     @track searchPCQSResults = [];
-    @track hasPCQSResults = false;    
+    @track hasPCQSResults = false;
 
+    userId = Id;
     activeSections = ['A', 'B', 'C'];
 
     handleSectionToggle(event) {
         const openSections = event.detail.openSections;
     }
+
+    @wire(getRecord, { recordId: '$userId', fields: [USER_USERNAME_FIELD]})
+    user
+
+    get userUsername() {
+        return getFieldValue(this.user.data, USER_USERNAME_FIELD);
+    }
+
 
     @wire(ServiceItemLookupByEmail, {emailAddress: '$people.from.email'})
     wiredServiceItemLookupByEmail({ error, data }) {
@@ -47,15 +64,6 @@ export default class Outlook extends LightningElement {
             this.serviceItems = undefined;
         }
     }
-
-    
-
-    renderedCallback() {
-        console.log(`Incoming subject: ${undefined !== this.subject ? this.subject : ''}`);
-        console.log(`Incoming people: ${undefined !== this.people ? this.people : ''}`);
-        console.log(`Incoming messageBody: ${undefined !== this.messageBody ? JSON.stringify(this.messageBody) : ''}`);
-    }
-
  
     searchFirstNameChange(event) {
         this.searchFirstName= event.target.value;
@@ -91,14 +99,60 @@ export default class Outlook extends LightningElement {
         })
         .catch((error) => {
             this.error = error;
-            console.log(
-                `Outlook.ServiceItemSearch ERROR: ${JSON.stringify(
-            error
-          )}`
-            );
+            console.log(`Outlook.ServiceItemSearch ERROR: ${JSON.stringify(error)}`);
+        });
+
+        let endPoint = 'https://d3gngjazxr3e0y.cloudfront.net/USCIS%20PCQS%20Service.json';
+
+        fetch(endPoint, {method:"GET", mode:"no-cors"})
+        .then((response) => {
+            if (!response.ok) {
+                this.error = response;
+                console.log(`Outlook.fetch ERROR: ${JSON.stringify(response)}`);
+            }
+
+            return response.json();
+        })
+        .then((jsonResponse) => {
+            console.log("Outlook.fetch SUCCESS");
+            console.log(`Found ${jsonResponse.length} items`);
+            if (jsonResponse.length > 0){
+                this.hasPCQSResults = true;  
+            }
+            this.PCQSSearchCompleted = true;
+        })
+        .catch((error) => {
+            this.error = error;
+            console.log(`Outlook.fetch ERROR: ${JSON.stringify(error)}`);
         });
     }
 
+
+    createAccount() {
+        const fields = {};
+        fields[NAME_FIELD.fieldApiName] = this.name;
+        const recordInput = { apiName: ACCOUNT_OBJECT.objectApiName, fields };
+        createRecord(recordInput)
+            .then(account => {
+                this.accountId = account.id;
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: 'Success',
+                        message: 'Account created',
+                        variant: 'success',
+                    }),
+                );
+            })
+            .catch(error => {
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: 'Error creating record',
+                        message: error.body.message,
+                        variant: 'error',
+                    }),
+                );
+            });
+    }
 
 
 
