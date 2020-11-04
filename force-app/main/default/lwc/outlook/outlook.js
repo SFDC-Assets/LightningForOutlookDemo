@@ -1,32 +1,29 @@
-import {
-    LightningElement,
-    api,
-    track
-} from 'lwc';
-import ServiceItemLookup from "@salesforce/apex/LWCOutlookController.ServiceItemLookup";
-
-
-const columns = [
-    { label: 'Case Number', fieldName: 'Case_Number__c', button: {label: 'test', name: 'test'} },
-    { label: 'P Name', fieldName: 'Plaintiff_First_Name__c'},
-    { label: 'P Birth Date', fieldName: 'Plaintiff_Birthdate__c', type: 'date' },
-    { label: 'Attorney', fieldName: 'Attorney_Name__c'},
-    {   actions: [
-        { label: 'Link', checked: false, name:'all' },
-    ]}
-];
-
+import {LightningElement,api,track,wire} from 'lwc';
+import ServiceItemLookupByEmail from "@salesforce/apex/LWCOutlookController.ServiceItemLookupByEmail";
+import ServiceItemSearch from "@salesforce/apex/LWCOutlookController.ServiceItemSearch";
 
 export default class Outlook extends LightningElement {
     @api messageBody;
     @api subject;
     @api people;
-    @track serviceItems = [];
+    @api flexipageRegionWidth;
+    
+    @track serviceItems;
     @track hasServiceItems = false;
-    @track performingSearch = false;
+    @track performedSearch = false; 
+
+    @track searchFirstName = 'Jarred';
+    @track searchLastName = 'Peplay';    
+    @track searchBirthDate = new Date('1955-02-08');  
+
     @track salesforceSearchCompleted = false;
+    @track searchSalesforceResults;
+    @track hasSalesforceResults = false;
+
+
     @track PCQSSearchCompleted = false;
-    columns = columns;
+    @track searchPCQSResults = [];
+    @track hasPCQSResults = false;    
 
     activeSections = ['A', 'B', 'C'];
 
@@ -34,46 +31,73 @@ export default class Outlook extends LightningElement {
         const openSections = event.detail.openSections;
     }
 
+    @wire(ServiceItemLookupByEmail, {emailAddress: '$people.from.email'})
+    wiredServiceItemLookupByEmail({ error, data }) {
+        if (data) {
+            console.log(`Outlook.ServiceItemLookupByEmail SUCCESS`);
+            console.log(`Found ${data.length} serviceItems`);
+            this.error = undefined;
+            if (data.length > 0){
+                this.hasServiceItems = true;
+                this.serviceItems = data;
+            }
+        } else if (error) {
+            this.error = error;
+            console.log(`Outlook.ServiceItemLookupByEmail ERROR: ${JSON.stringify(error)}`);
+            this.serviceItems = undefined;
+        }
+    }
 
+    
 
     renderedCallback() {
         console.log(`Incoming subject: ${undefined !== this.subject ? this.subject : ''}`);
         console.log(`Incoming people: ${undefined !== this.people ? this.people : ''}`);
         console.log(`Incoming messageBody: ${undefined !== this.messageBody ? JSON.stringify(this.messageBody) : ''}`);
-        this.doServiceItemLookup();
     }
 
-    doServiceItemLookup() {
-        ServiceItemLookup({
-                emailAddress: this.people.from.email
-            })
-            .then((data) => {
-                console.log("Outlook.doServiceItemLookup SUCCESS");
-                console.log(`Found ${data.length} serviceItems`);
-                this.serviceItems = data;
-                this.error = undefined;
-                if (data.length > 0){
-                    this.hasServiceItems = true;
-                }
-            })
-            .catch((error) => {
-                this.error = error;
-                console.log(
-                    `Outlook.doServiceItemLookup ERROR: ${JSON.stringify(
-                error
-              )}`
-                );
-            });
+ 
+    searchFirstNameChange(event) {
+        this.searchFirstName= event.target.value;
     }
 
+    searchLastNameChange(event) {
+        this.searchLastName= event.target.value;
+    }
 
+    searchBirthDateChange(event) {
+        this.searchBirthDate= event.target.value;
+    }
+   
+    // Handles click on the 'Show/hide content' button
+    handleSearch() {
+        this.performedSearch = true;
+        this.activeSections = ['D'];
 
-
-// Handles click on the 'Show/hide content' button
-handleSearch() {
-    this.performingSearch = true;
-    this.activeSections = ['C', 'D'];
-}
+        ServiceItemSearch({
+            firstName: this.searchFirstName,
+            lastName: this.searchLastName,
+            birthDate: this.searchBirthDate
+        })
+        .then((data) => {
+            console.log("Outlook.ServiceItemSearch SUCCESS");
+            console.log(`Found ${data.length} serviceItems`);
+            this.searchSalesforceResults = data;
+            this.error = undefined;
+            if (data.length > 0){
+                this.hasSalesforceResults = true;
+            }
+            this.salesforceSearchCompleted = true;
+        })
+        .catch((error) => {
+            this.error = error;
+            console.log(
+                `Outlook.ServiceItemSearch ERROR: ${JSON.stringify(
+            error
+          )}`
+            );
+        });
+    }
 
 
 

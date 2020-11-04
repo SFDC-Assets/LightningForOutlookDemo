@@ -1,85 +1,96 @@
 <template>
-    <div class="slds-card__body">
-        <div class="slds-card slds-card_boundary">
-            <lightning-accordion allow-multiple-sections-open
-                         onsectiontoggle={handleSectionToggle}
-                         active-section-name={activeSections}>
-                <lightning-accordion-section name="A" label="About this Component">
-                    <div class="slds-var-m-around_x-small">The purpose of this component is exemplify the following salesforce features:</div>
-                    <div class="slds-var-m-around_x-small">
-                        <ul class="slds-list_dotted">
-                            <li style="font-size: .75em;">Ability for a LWC to be embedded into MS Outlook</li>
-                            <li style="font-size: .75em;">Ability for a LWC embedded in MS Outlook associated Emails with records in Salesforce</li>
-                            <li style="font-size: .75em;">Ability for a LWC embedded in MS Outlook to pull information from an associated Email in Read Mode</li>
-                            <li style="font-size: .75em;">Ability for a LWC embedded in MS Outlook to pull from External data source</li>
-                        </ul>
-                    </div>
-                </lightning-accordion-section>
-                <lightning-accordion-section name="B" label="Automatic Search">
-                    <template if:true={hasServiceItems}>
+    <div class={flexipageRegionWidth}>
+        <div class="slds-card__body slds-var-m-around_x-small">
+            <div class="slds-card slds-card_boundary">
+                <lightning-accordion allow-multiple-sections-open
+                            onsectiontoggle={handleSectionToggle}
+                            active-section-name={activeSections}>
+                    <lightning-accordion-section name="A" label="About this Component">
+                        <div class="slds-var-m-around_x-small">The purpose of this component is exemplify the following salesforce features:</div>
                         <div class="slds-var-m-around_x-small">
-                            Auto Search Results: <lightning-icon icon-name="action:approval" size="xx-small" alternative-text="Success" title="Success"></lightning-icon>
+                            <ul class="slds-list_dotted">
+                                <li style="font-size: .75em;">Ability for a LWC to be embedded into MS Outlook</li>
+                                <li style="font-size: .75em;">Ability for a LWC embedded in MS Outlook associated Emails with records in Salesforce</li>
+                                <li style="font-size: .75em;">Ability for a LWC embedded in MS Outlook to pull information from an associated Email in Read Mode</li>
+                                <li style="font-size: .75em;">Ability for a LWC embedded in MS Outlook to pull from External data source</li>
+                            </ul>
                         </div>
+                    </lightning-accordion-section>
+                    <lightning-accordion-section name="B" label="Automatic Search">
+                        <template if:true={people}>
+                            <template if:true={hasServiceItems}>
+                                <div class="slds-var-m-around_x-small">
+                                    Auto Search Results: <lightning-icon icon-name="action:approval" size="xx-small" alternative-text="Success" title="Success"></lightning-icon>
+                                </div>
+                                <div class="slds-var-m-around_x-small slds-text-align_left">
+                                    Based upon the from Email Address (<strong>{people.from.email}</strong>), we were able to pull the following Service Item Records from Salesforce:
+                                </div>   
+                                <template for:each={serviceItems} for:item="serviceItem">
+                                        <c-outlook-service-item-tile service-item={serviceItem} key={serviceItem.Case_Number__c}></c-outlook-service-item-tile>
+                                </template>           
+                            </template>
+                            <template if:false={hasServiceItems}>
+                                <div class="slds-var-m-around_x-small">
+                                    Auto Search Result: <lightning-icon icon-name="action:close" size="xx-small" alternative-text="Fail" title="Fail"></lightning-icon>
+                                </div>
+                                <div class="slds-var-m-around_x-small slds-text-align_left ">
+                                    Unfortunatley, we could not find any records related to from email address (<strong>{people.from.email}</strong>).
+                                </div>   
+                            </template>
+                        </template>   
+                    </lightning-accordion-section>                
+                    <lightning-accordion-section name="C" label="Manual Search Form">
                         <div class="slds-var-m-around_x-small slds-text-align_left">
-                            Based upon the from Email Address (<strong>{people.from.email}</strong>), we were able to pull the following Service Item Records from Salesforce:
-                        </div>   
-                        <template for:each={serviceItems} for:item="serviceItem">
-                                <c-outlook-service-item-tile service-item={serviceItem} key={serviceItem.Case_Number__c}></c-outlook-service-item-tile>
-                        </template>           
-                    </template>
-                    <template if:false={hasServiceItems}>
-                        <div class="slds-var-m-around_x-small">
-                            Auto Search Result: <lightning-icon icon-name="action:close" size="xx-small" alternative-text="Fail" title="Fail"></lightning-icon>
+                            Please use this form to manually search for records in Salesforce and PCQS (External Request).
                         </div>
-                        <div class="slds-var-m-around_x-small slds-text-align_left ">
-                            Unfortunatley, we could not find any records related to from email address (<strong>{people.from.email}</strong>).
-                        </div>   
-                    </template>   
-                </lightning-accordion-section>                
-                <lightning-accordion-section name="C" label="Manual Search Form">
-                    <div class="slds-var-m-around_x-small slds-text-align_left">
-                        Please use this form to manually search for records in Salesforce and PCQS (External Request).
-                    </div>
-                    <div class="slds-var-m-around_x-small">
-                        <lightning-input type="text" label="First Name"></lightning-input>
-                    </div>
-                    <div class="slds-var-m-around_x-small">
-                        <lightning-input type="text" label="Last Name"></lightning-input>
-                    </div> 
-                    <div class="slds-var-m-around_x-small">
-                        <lightning-input type="date" name="input1" label="Date of Birth" ></lightning-input> 
-                    </div> 
-                    <div class="slds-var-m-around_medium slds-text-align_center"> 
-                        <lightning-button label="Search" variant="brand" title="Search" icon-name="utility:search" onclick={handleSearch}></lightning-button>                   
-                    </div>
-                </lightning-accordion-section> 
-                <lightning-accordion-section name="D" label="Search Results">
-                    <template if:true={performingSearch}>
-                        <lightning-card title="Salesforce Search Results">
-                            <div class="slds-var-m-around_x-small">
-                                <template if:false={salesforceSearchCompleted}>
+                        <div class="slds-var-m-around_x-small">
+                            <lightning-input type="text" name="searchFirstName" onchange={searchFirstNameChange} label="First Name"></lightning-input>
+                        </div>
+                        <div class="slds-var-m-around_x-small">
+                            <lightning-input type="text" name="searchLastName" onchange={searchLastNameChange} label="Last Name"></lightning-input>
+                        </div> 
+                        <div class="slds-var-m-around_x-small">
+                            <lightning-input type="date" name="searchBirthDate" onchange={searchBirthDateChange}  label="Date of Birth" ></lightning-input> 
+                        </div> 
+                        <div class="slds-var-m-around_medium slds-text-align_center"> 
+                            <lightning-button label="Search" variant="brand" title="Search" icon-name="utility:search" onclick={handleSearch}></lightning-button>                   
+                        </div>
+                    </lightning-accordion-section> 
+                    <lightning-accordion-section name="D" label="Manual Search Results">
+                        <template if:true={performedSearch}>
+                            <lightning-card title="Salesforce Search Results">
+                                <div class="slds-var-m-around_x-small">
+                                    <template if:true={salesforceSearchCompleted}>
+                                        <template if:true={hasSalesforceResults}>
+                                            <template for:each={searchSalesforceResults} for:item="serviceItem">
+                                                <c-outlook-service-item-tile service-item={serviceItem} key={serviceItem.Case_Number__c}></c-outlook-service-item-tile>
+                                        </template>  
+                                        </template>
+                                    </template>
+                                    <template if:false={salesforceSearchCompleted}>
+                                        <div class="slds-is-relative" style="height:20px;">
+                                            <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                                        </div>
+                                    </template>
+                                </div>
+                            </lightning-card> 
+                            <lightning-card title="PCQS Search Results">
+                                <template if:false={PCQSSearchCompleted}>
                                     <div class="slds-is-relative" style="height:20px;">
                                         <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
                                     </div>
                                 </template>
+                            </lightning-card>                 
+                        </template>
+                        <template if:false={performedSearch}>
+                            <div class="slds-illustration slds-illustration_small" aria-hidden="true">
+                                <img src="/img/chatter/Desert.svg" class="slds-illustration__svg" alt="" />
+                                <h3 class="slds-text-heading_small">Please perform Search</h3>
                             </div>
-                        </lightning-card> 
-                        <lightning-card title="PCQS Search Results">
-                            <template if:false={PCQSSearchCompleted}>
-                                <div class="slds-is-relative" style="height:20px;">
-                                    <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
-                                </div>
-                            </template>
-                        </lightning-card>                 
-                    </template>
-                    <template if:false={performingSearch}>
-                        <div class="slds-illustration slds-illustration_small" aria-hidden="true">
-                            <img src="/img/chatter/Desert.svg" class="slds-illustration__svg" alt="" />
-                            <h3 class="slds-text-heading_small">Please perform Search</h3>
-                        </div>
-                    </template>
-                </lightning-accordion-section>
-            </lightning-accordion>
+                        </template>
+                    </lightning-accordion-section>
+                </lightning-accordion>
+            </div>
         </div>
     </div>
 </template>
