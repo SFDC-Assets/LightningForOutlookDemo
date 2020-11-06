@@ -4,6 +4,53 @@
         <application>LFO_Demo</application>
         <visible>true</visible>
     </applicationVisibilities>
+    <classAccesses>
+        <apexClass>LWCOutlookController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PcqsServiceAPI</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PcqsServiceAPITest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PCQS_Service_Item__c.A_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PCQS_Service_Item__c.Birthdate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PCQS_Service_Item__c.Country_of_Origin__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PCQS_Service_Item__c.First_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PCQS_Service_Item__c.Last_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PCQS_Service_Item__c.Plaintiff_Gender__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PCQS_Service_Item__c.Plaintiff_Port_of_Entry__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>service_item__c.Attorney_Company__c</field>
@@ -66,6 +113,15 @@
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>LFO Demo</label>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>PCQS_Service_Item__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
