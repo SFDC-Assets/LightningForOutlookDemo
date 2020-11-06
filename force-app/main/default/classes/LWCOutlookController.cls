@@ -2,7 +2,9 @@ public with sharing class LWCOutlookController {
 
     @AuraEnabled(cacheable=true)
     public static List<Service_Item__c> ServiceItemLookupByEmail(String emailAddress){ 
-      System.debug(emailAddress);
+      System.debug('Running LWCOutlookController.ServiceItemLookupByEmail');      
+      System.debug('Input email address=' + emailAddress);
+      
       return [SELECT Attorney_Company__c, 
                       Attorney_Email__c, 
                       Attorney_Name__c, 
@@ -21,6 +23,7 @@ public with sharing class LWCOutlookController {
 
     @AuraEnabled(cacheable=true)
     public static List<Service_Item__c> ServiceItemSearch(String firstName, String lastName, Date birthDate){ 
+      System.debug('Running LWCOutlookController.ServiceItemSearch');
       System.debug('Input firstName: ' + firstName + ', lastName: ' + lastName + ', birthDate: ' + birthDate);
       return [SELECT Attorney_Company__c, 
                       Attorney_Email__c, 
@@ -39,5 +42,80 @@ public with sharing class LWCOutlookController {
                   AND Plaintiff_Last_Name__c = :lastName
                 LIMIT 5];
     }
+
+
+    @AuraEnabled(cacheable=true)
+    public static String getSessionId(String firstName, String lastName, Date birthDate){ 
+      System.debug('Running LWCOutlookController.getSessionId');
+      return UserInfo.getSessionID();
+    }
+
+
+
+    @AuraEnabled(cacheable=true)
+    public static String PCQSServiceItemSearch(String firstName, String lastName, Date birthDate){ 
+      System.debug('Running LWCOutlookController.PCQSServiceItemSearch');
+
+    
+
+    Network myNetwork = [SELECT Id FROM Network WHERE Name ='My Community'];
+    String communityLoginUrl = Network.getLoginUrl(myNetwork.Id);
+    String communityUrl = communityLoginUrl.replace('/s/login', '');
+    System.debug('Community URL is: ' + communityUrl);
+    
+    String baseRequestURL = communityUrl + '/services/apexrest/pcqsAPI';
+    System.debug('Base Request URL URL is: ' + communityUrl);
+    String queryFilters = '';
+        
+    if((null != firstName && firstName != '') || (null != lastName && lastName != '') || (null != birthDate)){
+      queryFilters = queryFilters + '?';
+    }
+
+    if(null != firstName && firstName != ''){
+      queryFilters = queryFilters + '&firstName=' + firstName;
+    }
+
+    if(null != lastName && lastName != ''){
+      queryFilters = queryFilters + '&lastName=' + lastName;
+    }
+
+    if(null != birthDate){
+      Datetime output = Datetime.newInstanceGmt(birthDate, Time.newInstance(0,0,0,0));
+      queryFilters = queryFilters + '&birthDate=' + output.format('yyyy-MM-dd');
+    }
+
+      String url = baseRequestURL + queryFilters;
+      system.debug('Search URL is ' + url);
+      
+      HttpRequest request = new HttpRequest();
+      //request.setHeader('Authorization', 'Bearer ' + UserInfo.getSessionId());
+          
+      request.setTimeout(20000);
+      request.setHeader('Content-Type', 'application/json');
+
+      request.setEndpoint(url); 
+      request.setMethod('GET');   
+        
+      try{
+
+          Http http = new Http();
+          HttpResponse response = http.send(request);
+
+          if (response.getStatusCode() == 200) {
+              // Deserialize the JSON string into collections of primitive data types.
+              system.debug('Data: '+ response.getBody());
+              system.debug('doRestRequestJSON was a Success!');
+              return response.getBody();
+          }else{
+              system.debug('Request failed. Status Code: ' + response.getStatusCode());
+              return null;
+          }
+
+      }catch(Exception e){
+          system.debug('Error Running HTTP Request: ' + e);
+          throw e;
+      }  
+
+  }
 
 }

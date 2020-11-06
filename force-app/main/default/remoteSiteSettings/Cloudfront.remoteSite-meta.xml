@@ -2,5 +2,5 @@
 <RemoteSiteSetting xmlns="http://soap.sforce.com/2006/04/metadata">
     <disableProtocolSecurity>true</disableProtocolSecurity>
     <isActive>true</isActive>
-    <url>https://d3gngjazxr3e0y.cloudfront.net</url>
+    <url>https://sandbox-platform-momentum-1201-dev-e-1759f23dd7b.cs78.force.com</url>
 </RemoteSiteSetting>

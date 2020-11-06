@@ -25,4 +25,4 @@ echo "*** Setting up debug mode..."
 sfdx force:apex:execute -f scripts/apex/DebugMode.apex
 
 echo "*** Opening Org"
-sfdx force:org:open
+sfdx force:org:open -p /lightning/n/LFO_Demo

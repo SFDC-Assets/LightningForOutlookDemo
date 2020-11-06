@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingGuestRules>
+        <fullName>Public_Access_to_PCQS_Records</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>Public Access to PCQS Records</label>
+        <sharedTo>
+            <guestUser>My_Community</guestUser>
+        </sharedTo>
+        <criteriaItems>
+            <field>A_Number__c</field>
+            <operation>notEqual</operation>
+            <value/>
+        </criteriaItems>
+    </sharingGuestRules>
+</SharingRules>
