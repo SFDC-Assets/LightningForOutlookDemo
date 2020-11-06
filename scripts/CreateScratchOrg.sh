@@ -16,9 +16,9 @@ sfdx force:user:password:generate --targetusername USCISOutlookLWCScratch
 echo "*** Creating data"
 sfdx shane:data:tree:import -p data/export-demo-service_item__c-plan.json -d data/
 
-echo "*** Creating User"
-sfdx force:user:create --setalias outlook-user --definitionfile data/user-def.json
-sfdx force:user:password:generate --targetusername outlook-user
+#echo "*** Creating User"
+#sfdx force:user:create --setalias outlook-user --definitionfile data/user-def.json
+#sfdx force:user:password:generate --targetusername outlook-user
 
 echo "*** Setting up debug mode..."
 sfdx force:apex:execute -f scripts/apex/DebugMode.apex

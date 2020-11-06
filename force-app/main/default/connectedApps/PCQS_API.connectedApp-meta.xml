@@ -4,7 +4,6 @@
     <label>PCQS API</label>
     <oauthConfig>
         <callbackUrl>https://oauth.pstmn.io/v1/callback</callbackUrl>
-        <consumerKey>3MVG9FxR3Tq3eZN.CK0eXCCzoyXLTmeUYNu7ik.4HZuWEGrSnszLUZ5jdL7EnxQa7eqB0tFqk.Zj9AGMfi_Go</consumerKey>
         <isAdminApproved>false</isAdminApproved>
         <isConsumerSecretOptional>true</isConsumerSecretOptional>
         <isIntrospectAllTokens>false</isIntrospectAllTokens>
