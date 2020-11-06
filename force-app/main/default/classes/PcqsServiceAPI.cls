@@ -26,7 +26,7 @@ global with sharing class PcqsServiceAPI {
             query = query + ' First_Name__c = \'' + request.params.get('firstName') + '\'';
         }
 
-        if((request.params.containsKey('firstName') || request.params.containsKey('lastName')) && request.params.containsKey('lastName')){
+        if((request.params.containsKey('firstName') || request.params.containsKey('lastName')) && request.params.containsKey('birthDate')){
             query = query + ' AND ';
         }
 

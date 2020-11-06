@@ -55,11 +55,40 @@ public with sharing class LWCOutlookController {
     @AuraEnabled(cacheable=true)
     public static String PCQSServiceItemSearch(String firstName, String lastName, Date birthDate){ 
       System.debug('Running LWCOutlookController.PCQSServiceItemSearch');
-      String url = URL.getOrgDomainUrl().toExternalForm() + '/services/apexrest/pcqs';
-      system.debug('URL is ' + url);
+
+    
+
+    Network myNetwork = [SELECT Id FROM Network WHERE Name ='My Community'];
+    String communityLoginUrl = Network.getLoginUrl(myNetwork.Id);
+    String communityUrl = communityLoginUrl.replace('/s/login', '');
+    System.debug('Community URL is: ' + communityUrl);
+    
+    String baseRequestURL = communityUrl + '/services/apexrest/pcqsAPI';
+    System.debug('Base Request URL URL is: ' + communityUrl);
+    String queryFilters = '';
+        
+    if((null != firstName && firstName != '') || (null != lastName && lastName != '') || (null != birthDate)){
+      queryFilters = queryFilters + '?';
+    }
+
+    if(null != firstName && firstName != ''){
+      queryFilters = queryFilters + '&firstName=' + firstName;
+    }
+
+    if(null != lastName && lastName != ''){
+      queryFilters = queryFilters + '&lastName=' + lastName;
+    }
+
+    if(null != birthDate){
+      Datetime output = Datetime.newInstanceGmt(birthDate, Time.newInstance(0,0,0,0));
+      queryFilters = queryFilters + '&birthDate=' + output.format('yyyy-MM-dd');
+    }
+
+      String url = baseRequestURL + queryFilters;
+      system.debug('Search URL is ' + url);
       
       HttpRequest request = new HttpRequest();
-      request.setHeader('Authorization', 'Bearer ' + UserInfo.getSessionId());
+      //request.setHeader('Authorization', 'Bearer ' + UserInfo.getSessionId());
           
       request.setTimeout(20000);
       request.setHeader('Content-Type', 'application/json');
