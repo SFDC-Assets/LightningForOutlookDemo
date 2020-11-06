@@ -19,7 +19,7 @@ global with sharing class PcqsServiceAPI {
         }
 
         if(request.params.containsKey('firstName') && request.params.containsKey('lastName')){
-            query = query + 'AND ';
+            query = query + ' AND ';
         }
 
         if(request.params.containsKey('lastName')){
@@ -27,19 +27,19 @@ global with sharing class PcqsServiceAPI {
         }
 
         if((request.params.containsKey('firstName') || request.params.containsKey('lastName')) && request.params.containsKey('lastName')){
-            query = query + 'AND ';
+            query = query + ' AND ';
         }
 
         if(request.params.containsKey('birthDate')){
             birthDateStr = request.params.get('birthDate');
             birthDate = Date.valueOf(birthDateStr);
-            query = query + ' Birthdate__c = \'' + birthDate + '\'';
+            query = query + ' Birthdate__c = ' + birthDateStr;
         }
 
         query = query + ' LIMIT 20';
 
         System.debug('Running the following Query: ' + query);
-        
+
         List<PCQS_Service_Item__c> pcqsList = Database.query(query);
 
         return pcqsList;
