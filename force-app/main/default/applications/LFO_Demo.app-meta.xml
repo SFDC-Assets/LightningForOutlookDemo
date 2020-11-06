@@ -15,6 +15,7 @@
     <navType>Standard</navType>
     <tabs>LFO_Demo</tabs>
     <tabs>service_item__c</tabs>
+    <tabs>PCQS_Service_Item__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>LFO_Demo_UtilityBar</utilityBar>
 </CustomApplication>
