@@ -80,7 +80,7 @@ public with sharing class LWCOutlookController {
     }
 
     if(null != birthDate){
-      Datetime output = Datetime.newInstanceGmt(birthDate, Time.newInstance(0,0,0,0));
+      Datetime output = Datetime.newInstance(birthDate, Time.newInstance(0,0,0,0));
       queryFilters = queryFilters + '&birthDate=' + output.format('yyyy-MM-dd');
     }
 
@@ -103,9 +103,10 @@ public with sharing class LWCOutlookController {
 
           if (response.getStatusCode() == 200) {
               // Deserialize the JSON string into collections of primitive data types.
-              system.debug('Data: '+ response.getBody());
+              String responseData = response.getBody();
+              system.debug('Data: '+ responseData);
               system.debug('doRestRequestJSON was a Success!');
-              return response.getBody();
+              return responseData;
           }else{
               system.debug('Request failed. Status Code: ' + response.getStatusCode());
               return null;

@@ -34,7 +34,7 @@ export default class Outlook extends LightningElement {
     @track hasSalesforceResults = false;
 
     @track PCQSSearchCompleted = false;
-    @track searchPCQSResults = [];
+    @track searchPCQSResults;
     @track hasPCQSResults = false;
 
     userId = Id;
@@ -110,6 +110,7 @@ export default class Outlook extends LightningElement {
         })
         .then((data) => {
             console.log("Outlook.ServiceItemSearch SUCCESS");
+            console.log(`Found ${data} serviceItems`);
             console.log(`Found ${data.length} serviceItems`);
             this.searchSalesforceResults = data;
             this.error = undefined;
@@ -131,15 +132,18 @@ export default class Outlook extends LightningElement {
         })
         .then((data) => {
             console.log("Outlook.PCQSServiceItemSearch SUCCESS");
-            console.log(`PCQS service Items Data: ${data}`);
-            if(null !== data){
-                this.searchPCQSResults = JSON.parse(data);
-                console.log(`Found ${searchPCQSResults.length} PCQS service Items`); 
-                this.error = undefined;
-                if (searchPCQSResults.length > 0){
-                    this.hasPCQSResults = true;
-                }
+            console.log(`PCQS service API Results ${data}`);
+            let resultData = JSON.parse(data);
+            console.log(`After JSON.parse: ${resultData}`);
+            console.log(`After JSON.parse Length: ${resultData.length}`);
+            
+            if (resultData.length > 0){
+                this.hasPCQSResults = true;
+                this.searchPCQSResults = resultData;
+            }else{
+                this.searchPCQSResults = null;
             }
+
             this.PCQSSearchCompleted = true;
         })
         .catch((error) => {
