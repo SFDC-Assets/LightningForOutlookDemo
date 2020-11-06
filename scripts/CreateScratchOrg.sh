@@ -15,6 +15,7 @@ sfdx force:user:password:generate --targetusername USCISOutlookLWCScratch
 
 echo "*** Creating data"
 sfdx shane:data:tree:import -p data/export-demo-service_item__c-plan.json -d data/
+sfdx shane:data:tree:import -p data/export-demo-PCQS_Service_Item__c-plan.json -d data/
 
 #echo "*** Creating User"
 #sfdx force:user:create --setalias outlook-user --definitionfile data/user-def.json

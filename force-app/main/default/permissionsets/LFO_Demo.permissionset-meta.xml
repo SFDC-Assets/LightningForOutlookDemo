@@ -132,6 +132,10 @@
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <tabSettings>
+        <tab>PCQS_Service_Item__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>service_item__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
