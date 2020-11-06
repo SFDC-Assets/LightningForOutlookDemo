@@ -7,7 +7,7 @@ global with sharing class PcqsServiceAPI {
         String firstName = '';
         String lastName = '';
         String birthDateStr = '';
-        String query = 'SELECT First_Name__c, Last_Name__c, A_Number__c, Birthdate__c, Country_of_Origin__c, Plaintiff_Gender__c, Plaintiff_Port_of_Entry__c FROM PCQS_Service_Item__c';
+        String query = 'SELECT Id, First_Name__c, Last_Name__c, A_Number__c, Birthdate__c, Country_of_Origin__c, Plaintiff_Gender__c, Plaintiff_Port_of_Entry__c FROM PCQS_Service_Item__c';
         Date birthDate = Date.today();
 
         if(request.params.containsKey('firstName') || request.params.containsKey('lastName') || request.params.containsKey('birthDate')){
@@ -23,7 +23,7 @@ global with sharing class PcqsServiceAPI {
         }
 
         if(request.params.containsKey('lastName')){
-            query = query + ' First_Name__c = \'' + request.params.get('firstName') + '\'';
+            query = query + ' Last_Name__c = \'' + request.params.get('lastName') + '\'';
         }
 
         if((request.params.containsKey('firstName') || request.params.containsKey('lastName')) && request.params.containsKey('birthDate')){

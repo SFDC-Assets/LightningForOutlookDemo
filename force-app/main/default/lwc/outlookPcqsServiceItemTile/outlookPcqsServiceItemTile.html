@@ -1,0 +1,40 @@
+<template>
+    <div class="slds-var-m-around_small">
+        <div class="slds-card__body">
+            <div class="slds-card slds-card_boundary">
+                <lightning-card>
+                    <h1 slot="title">A Number: {pcqsServiceItem.A_Number__c}</h1>
+                    <lightning-button label="Create and Add" slot="actions"></lightning-button>
+                    <div slot="footer" class="slds-text-align_left">
+                        <lightning-layout>
+                            <lightning-layout-item flexibility="auto" size="3">
+                                <div class="header-column">
+                                    <p class="field-title" title="Plaintiff Name">Name</p>
+                                    <p>{pcqsServiceItem.First_Name__c} {pcqsServiceItem.Last_Name__c}</p>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto" size="3">
+                                <div class="header-column">
+                                    <p class="field-title" title="Plaintiff Origin">Origin</p>
+                                    <p>{pcqsServiceItem.Country_of_Origin__c}</p>
+                                </div>
+                            </lightning-layout-item>                            
+                            <lightning-layout-item flexibility="auto" size="3">
+                                <div class="header-column">
+                                    <p class="field-title" title="Plaintiff Birthdate">Birthdate</p>
+                                    <p>{pcqsServiceItem.Birthdate__c}</p>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto" size="3">
+                                <div class="header-column">
+                                    <p class="field-title" title="Port of Entry">Port of Entry</p>
+                                    <p>{pcqsServiceItem.Plaintiff_Port_of_Entry__c}</p>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </lightning-card> 
+            </div>
+        </div>
+    </div>
+</template>

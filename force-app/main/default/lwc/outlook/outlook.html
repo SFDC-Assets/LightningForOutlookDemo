@@ -69,7 +69,7 @@
                                         <template if:true={hasSalesforceResults}>
                                             <template for:each={searchSalesforceResults} for:item="serviceItem">
                                                 <c-outlook-service-item-tile service-item={serviceItem} key={serviceItem.Case_Number__c}></c-outlook-service-item-tile>
-                                        </template>  
+                                            </template>  
                                         </template>
                                     </template>
                                     <template if:false={salesforceSearchCompleted}>
@@ -80,6 +80,13 @@
                                 </div>
                             </lightning-card> 
                             <lightning-card title="PCQS Search Results">
+                                <template if:true={PCQSSearchCompleted}>
+                                    <template if:true={hasPCQSResults}>
+                                        <template for:each={searchPCQSResults} for:item="PCQSserviceItem">
+                                            <c-outlook-pcqs-service-item-tile pcqs-service-item={PCQSserviceItem} key={PCQSserviceItem.Id}></c-outlook-pcqs-service-item-tile>
+                                        </template>  
+                                    </template>
+                                </template>                                
                                 <template if:false={PCQSSearchCompleted}>
                                     <div class="slds-is-relative" style="height:20px;">
                                         <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
