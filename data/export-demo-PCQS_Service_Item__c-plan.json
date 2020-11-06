@@ -1,0 +1,10 @@
+[
+    {
+        "sobject": "PCQS_Service_Item__c",
+        "saveRefs": true,
+        "resolveRefs": false,
+        "files": [
+            "export-demo-PCQS_Service_Item__cs.json"
+        ]
+    }
+]
