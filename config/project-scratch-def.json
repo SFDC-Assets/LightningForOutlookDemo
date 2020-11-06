@@ -1,7 +1,7 @@
 {
   "orgName": "USCIS Outlook LWC",
   "edition": "Developer",
-  "features": ["ServiceCloud", "PlatformConnect"],
+  "features": ["ServiceCloud", "PlatformConnect", "Communities",  "Sites"],
   "settings": {
     "lightningExperienceSettings": {
       "enableS1DesktopEnabled": true
@@ -13,6 +13,12 @@
     },
     "mobileSettings": {
       "enableS1EncryptedStoragePref2": false
-    }
+    },
+    "experienceBundleSettings": {
+      "enableExperienceBundleMetadata": true
+  },
+  "communitiesSettings": {
+      "enableNetworksEnabled": true
+  }    
   }
 }

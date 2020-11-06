@@ -2,6 +2,9 @@ import {LightningElement,api,track,wire} from 'lwc';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import ServiceItemLookupByEmail from "@salesforce/apex/LWCOutlookController.ServiceItemLookupByEmail";
 import ServiceItemSearch from "@salesforce/apex/LWCOutlookController.ServiceItemSearch";
+import PCQSServiceItemSearch from "@salesforce/apex/LWCOutlookController.PCQSServiceItemSearch";
+import GetSessionId from "@salesforce/apex/LWCOutlookController.getSessionId";
+
 import Id from '@salesforce/user/Id';
 
 import SERVICE_ITEM_OBJECT from '@salesforce/schema/Service_Item__c';
@@ -17,6 +20,7 @@ export default class Outlook extends LightningElement {
     @api people;
     @api flexipageRegionWidth;
     
+    @track sessionId;
     @track serviceItems;
     @track hasServiceItems = false;
     @track performedSearch = false; 
@@ -47,6 +51,19 @@ export default class Outlook extends LightningElement {
         return getFieldValue(this.user.data, USER_USERNAME_FIELD);
     }
 
+    @wire(GetSessionId)
+    wiredGetSessionId({ error, data }) {
+        if (data) {
+            console.log(`Outlook.wiredGetSessionId SUCCESS`);
+            console.log(`Found ${data} sessionId`);
+            this.error = undefined;
+            this.sessionId = data;
+        } else if (error) {
+            this.error = error;
+            console.log(`Outlook.wiredGetSessionId ERROR: ${JSON.stringify(error)}`);
+            this.sessionId = undefined;
+        }
+    }    
 
     @wire(ServiceItemLookupByEmail, {emailAddress: '$people.from.email'})
     wiredServiceItemLookupByEmail({ error, data }) {
@@ -81,6 +98,10 @@ export default class Outlook extends LightningElement {
     handleSearch() {
         this.performedSearch = true;
         this.activeSections = ['D'];
+        this.salesforceSearchCompleted = false;
+        this.hasSalesforceResults = false;
+        this.PCQSSearchCompleted = false;
+        this.hasPCQSResults = false;
 
         ServiceItemSearch({
             firstName: this.searchFirstName,
@@ -100,31 +121,34 @@ export default class Outlook extends LightningElement {
         .catch((error) => {
             this.error = error;
             console.log(`Outlook.ServiceItemSearch ERROR: ${JSON.stringify(error)}`);
+            this.salesforceSearchCompleted = true;
         });
 
-        let endPoint = 'https://d3gngjazxr3e0y.cloudfront.net/USCIS%20PCQS%20Service.json';
-
-        fetch(endPoint, {method:"GET", mode:"no-cors"})
-        .then((response) => {
-            if (!response.ok) {
-                this.error = response;
-                console.log(`Outlook.fetch ERROR: ${JSON.stringify(response)}`);
-            }
-
-            return response.json();
+        PCQSServiceItemSearch({
+            firstName: this.searchFirstName,
+            lastName: this.searchLastName,
+            birthDate: this.searchBirthDate
         })
-        .then((jsonResponse) => {
-            console.log("Outlook.fetch SUCCESS");
-            console.log(`Found ${jsonResponse.length} items`);
-            if (jsonResponse.length > 0){
-                this.hasPCQSResults = true;  
+        .then((data) => {
+            console.log("Outlook.PCQSServiceItemSearch SUCCESS");
+            console.log(`PCQS service Items Data: ${data}`);
+            if(null !== data){
+                this.searchPCQSResults = JSON.parse(data);
+                console.log(`Found ${searchPCQSResults.length} PCQS service Items`); 
+                this.error = undefined;
+                if (searchPCQSResults.length > 0){
+                    this.hasPCQSResults = true;
+                }
             }
             this.PCQSSearchCompleted = true;
         })
         .catch((error) => {
             this.error = error;
-            console.log(`Outlook.fetch ERROR: ${JSON.stringify(error)}`);
+            console.log(`Outlook.PCQSServiceItemSearch ERROR: ${JSON.stringify(error)}`);
+            this.PCQSSearchCompleted = true;
         });
+
+
     }
 
 
