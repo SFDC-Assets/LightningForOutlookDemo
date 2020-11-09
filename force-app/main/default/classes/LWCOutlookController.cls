@@ -61,6 +61,7 @@ public with sharing class LWCOutlookController {
     Network myNetwork = [SELECT Id FROM Network WHERE Name ='My Community'];
     String communityLoginUrl = Network.getLoginUrl(myNetwork.Id);
     String communityUrl = communityLoginUrl.replace('/s/login', '');
+    communityUrl = communityUrl.replace('/login', '');
     System.debug('Community URL is: ' + communityUrl);
     
     String baseRequestURL = communityUrl + '/services/apexrest/pcqsAPI';
