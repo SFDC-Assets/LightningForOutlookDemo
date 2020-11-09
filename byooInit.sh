@@ -1,5 +1,8 @@
 sfdx force:org:create -s -f config/project-scratch-def.json
 
+#create Community
+#sfdx force:community:create --name "My Community" --templatename "Build Your Own" --urlpathprefix customers --description "My customer community"
+
 sfdx force:source:push
 
 #Assign PermissionSet

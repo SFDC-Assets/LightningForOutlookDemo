@@ -22,9 +22,6 @@
     <referrerPolicyOriginWhenCrossOrigin>true</referrerPolicyOriginWhenCrossOrigin>
     <requireHttps>true</requireHttps>
     <selfRegPage>CommunitiesSelfReg</selfRegPage>
-    <siteAdmin>test-w7g9evyaeayu@example.com</siteAdmin>
-    <siteGuestRecordDefaultOwner>test-w7g9evyaeayu@example.com</siteGuestRecordDefaultOwner>
     <siteType>ChatterNetwork</siteType>
-    <subdomain>efficiency-connect-3805-dev--1759f1ee672</subdomain>
     <urlPathPrefix>customers</urlPathPrefix>
 </CustomSite>
