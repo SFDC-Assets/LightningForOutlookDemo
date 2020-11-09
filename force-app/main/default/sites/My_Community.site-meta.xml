@@ -23,5 +23,5 @@
     <requireHttps>true</requireHttps>
     <selfRegPage>CommunitiesSelfReg</selfRegPage>
     <siteType>ChatterNetwork</siteType>
-    <urlPathPrefix>customers</urlPathPrefix>
+    <urlPathPrefix>pcqsapicommunity</urlPathPrefix>
 </CustomSite>
