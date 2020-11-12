@@ -120,4 +120,51 @@ public with sharing class LWCOutlookController {
 
   }
 
+  @AuraEnabled
+  public static Id createEmailMessage(String serviceItemId, String fromEmailAddress, String fromName, String subject, String messageBody){
+
+    EmailMessage emailMessage = new EmailMessage();
+
+    User thisUser = [SELECT Id, Email, FIrstName, LastName FROM User where Id = :UserInfo.getUserId()];
+
+    List<ID> toIDs = new List<ID>();
+    toIDs.add(thisUser.Id);
+
+    emailMessage.RelatedToId = serviceItemId;
+    emailMessage.FromAddress = fromEmailAddress;
+    emailMessage.FromName = fromName;
+    emailMessage.Incoming = False;
+    emailMessage.MessageDate = Datetime.now();
+    emailMessage.Subject = subject;
+    emailMessage.TextBody = messageBody;
+    emailMessage.HtmlBody = messageBody;
+    emailMessage.toIds  = toIDs;
+    emailMessage.ToAddress = thisUser.Email;
+    
+    insert emailMessage;
+
+    return emailMessage.Id;
+
+  }
+
+
+  @AuraEnabled
+  public static Id createServiceItem(String aNumber, Date birthDate, String countryOfOrigin, String firstName, String lastName, String gender, String portOfEntry){
+
+    service_item__c serviceItem = new service_item__c();
+
+    serviceItem.Plaintiff_A_Number__c = aNumber;
+    serviceItem.Plaintiff_Birthdate__c = birthDate;
+    serviceItem.Plantiff_Country_Of_Origin__c = countryOfOrigin;
+    serviceItem.Plaintiff_First_Name__c = firstName;
+    serviceItem.Plaintiff_Last_Name__c = lastName;
+    serviceItem.Plaintiff_Gender__c = gender;
+    serviceItem.Plaintiff_Port_of_Entry__c = portOfEntry;
+    
+    insert serviceItem;
+
+    return serviceItem.Id;
+  }
+
+
 }

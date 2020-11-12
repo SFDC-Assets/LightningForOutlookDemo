@@ -3,8 +3,10 @@
         <div class="slds-card__body">
             <div class="slds-card slds-card_boundary">
                 <lightning-card>
-                    <h1 slot="title">Case #{serviceItem.Case_Number__c}</h1>
-                    <lightning-button label="Select" slot="actions"></lightning-button>
+                    <h1 slot="title">
+                        <lightning-formatted-url value={serviceItemUrl} tooltip={tileTitle} target="_blank" label={tileTitle}></lightning-formatted-url>
+                    </h1>
+                    <lightning-button label="Select" slot="actions" onclick={buttonClick}></lightning-button>
                     <div slot="footer" class="slds-text-align_left">
                         <lightning-layout>
                             <lightning-layout-item flexibility="auto" size="3">
