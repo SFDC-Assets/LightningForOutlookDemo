@@ -1,6 +1,6 @@
 # Lightning for Outlook Demonstration
 
-[Outlook Screenshot](/readme-assets/outlook-screenshot.png)
+![Outlook Screenshot](/readme-assets/outlook-screenshot.png)
 
 This Repository is a fully packaged Demo Scenario focused on showing off the features of Lightning for Outlook (LFO). It enables a user to 
 
@@ -55,7 +55,7 @@ Setup -> Communities Settings -> Enable ExperienceBundle Metadata API (Must be c
 
 ## Running this Demo
 
-[Embedded Application](/readme-assets/embedded-app.png)
+![Embedded Application](/readme-assets/embedded-app.png)
 
 First and foremost, If you don't feel like doing all the Office 365 Setup (Or potentially you can't because of Licensing), I have inclueded an embedded "LFO Demo" App that has the outlook look and feel and demonstrate's the same functionality of the Lightning Web Component in the safety of the Lightning Platform.
 
@@ -68,6 +68,13 @@ The Lightning Web component grabs data directly from open emails, so it is more 
 The demo consists of 3 major scenarios. Each is outlined below
 
 ### Auto Search
+
+| Number | Talk Track | Actions |
+|--------|------------|---------|
+| 1      | Blah       | Blah    |
+| 2      | Blah       | Blah    |
+| 3      | Blah       | Blah    |
+
 
 #### Generic Email Example
 
@@ -104,9 +111,12 @@ Date of Birth: 02/08/1955
 
 ### Search Results and Creating new Service Items
 
+| Number | Talk Track | Actions |
+|--------|------------|---------|
+| 1      | Blah       | Blah    |
+| 2      | Blah       | Blah    |
+| 3      | Blah       | Blah    |
 
-
-- Send Email to yourself
 
 ### Generic Email Example
 
