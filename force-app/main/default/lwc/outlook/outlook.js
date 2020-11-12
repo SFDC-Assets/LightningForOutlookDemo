@@ -4,6 +4,8 @@ import ServiceItemLookupByEmail from "@salesforce/apex/LWCOutlookController.Serv
 import ServiceItemSearch from "@salesforce/apex/LWCOutlookController.ServiceItemSearch";
 import PCQSServiceItemSearch from "@salesforce/apex/LWCOutlookController.PCQSServiceItemSearch";
 import GetSessionId from "@salesforce/apex/LWCOutlookController.getSessionId";
+import createEmailMessage from "@salesforce/apex/LWCOutlookController.createEmailMessage";
+import createServiceItem from "@salesforce/apex/LWCOutlookController.createServiceItem";
 
 import Id from '@salesforce/user/Id';
 
@@ -15,19 +17,30 @@ import USER_USERNAME_FIELD from '@salesforce/schema/User.Username';
 
 
 export default class Outlook extends LightningElement {
+    
     @api messageBody;
     @api subject;
     @api people;
     @api flexipageRegionWidth;
-    
+    @api dates;
+
     @track sessionId;
     @track serviceItems;
     @track hasServiceItems = false;
-    @track performedSearch = false; 
 
-    @track searchFirstName = 'Jarred';
-    @track searchLastName = 'Peplay';    
-    @track searchBirthDate = new Date('1955-02-08');  
+    @track performedSearch = false; 
+    
+    @track createdNewEmailMessage = false;
+    @track newEmailMessageId;
+    @track newEmailMessageUrl;
+
+    @track createdNewServiceItem = false;
+    @track newServiceItemId;
+    @track newServiceItemUrl;
+
+    @track searchFirstName
+    @track searchLastName  
+    @track searchBirthDate
 
     @track salesforceSearchCompleted = false;
     @track searchSalesforceResults;
@@ -37,8 +50,10 @@ export default class Outlook extends LightningElement {
     @track searchPCQSResults;
     @track hasPCQSResults = false;
 
+
+
     userId = Id;
-    activeSections = ['A', 'B', 'C'];
+    activeSections = ['A', 'B'];
 
     handleSectionToggle(event) {
         const openSections = event.detail.openSections;
@@ -82,6 +97,7 @@ export default class Outlook extends LightningElement {
         }
     }
  
+
     searchFirstNameChange(event) {
         this.searchFirstName= event.target.value;
     }
@@ -91,8 +107,9 @@ export default class Outlook extends LightningElement {
     }
 
     searchBirthDateChange(event) {
-        this.searchBirthDate= event.target.value;
+        this.searchBirthDate = event.target.value;
     }
+
    
     // Handles click on the 'Show/hide content' button
     handleSearch() {
@@ -155,35 +172,6 @@ export default class Outlook extends LightningElement {
 
     }
 
-
-    createAccount() {
-        const fields = {};
-        fields[NAME_FIELD.fieldApiName] = this.name;
-        const recordInput = { apiName: ACCOUNT_OBJECT.objectApiName, fields };
-        createRecord(recordInput)
-            .then(account => {
-                this.accountId = account.id;
-                this.dispatchEvent(
-                    new ShowToastEvent({
-                        title: 'Success',
-                        message: 'Account created',
-                        variant: 'success',
-                    }),
-                );
-            })
-            .catch(error => {
-                this.dispatchEvent(
-                    new ShowToastEvent({
-                        title: 'Error creating record',
-                        message: error.body.message,
-                        variant: 'error',
-                    }),
-                );
-            });
-    }
-
-
-
     /*
      
         SAMPLE SERVICE ITEM RECORD
@@ -209,6 +197,65 @@ export default class Outlook extends LightningElement {
     get emailMessageBody() {
         return JSON.stringify(this.messageBody);
     }
+
+
+
+    handleServiceItemButtonClick(event) {
+        console.log(`handleServiceItemButtonClick: ${JSON.stringify(event.detail)}`);
+        this.createEmailMessageFunction(event.detail.Id);
+    }    
+
+
+    createEmailMessageFunction(serviceItemId) {
+        createEmailMessage({
+            serviceItemId: serviceItemId,
+            fromEmailAddress: this.people.from.email,
+            fromName: this.people.from.name,
+            subject: this.subject,
+            messageBody: this.messageBody
+        })
+        .then((data) => {
+            console.log("Outlook.createEmailMessage SUCCESS");
+            this.newEmailMessageId = data;
+            this.newEmailMessageUrl = `/lightning/r/EmailMessage/${data}/view`;
+            this.createdNewEmailMessage = true;
+            this.activeSections = [];
+        })
+        .catch((error) => {
+            this.error = error;
+            console.log(`Outlook.createEmailMessage ERROR: ${JSON.stringify(error)}`);
+        });
+
+    }   
+
+
+
+    handlePCQSButtonClick(event) {
+        console.log(`handlePCQSButtonClick: ${JSON.stringify(event.detail)}`);
+
+        createServiceItem({
+            aNumber: event.detail.A_Number__c,
+            birthDate: event.detail.Birthdate__c,
+            countryOfOrigin: event.detail.Country_of_Origin__c,
+            firstName: event.detail.First_Name__c,
+            lastName: event.detail.Last_Name__c,
+            gender: event.detail.Plaintiff_Gender__c,
+            portOfEntry: event.detail.Plaintiff_Port_of_Entry__c
+        })
+        .then((data) => {
+            console.log("Outlook.createServiceItem SUCCESS");
+            this.newServiceItemId = data;
+            this.newServiceItemUrl = `/lightning/r/service_item__c/${data}/view`;
+            this.createdNewServiceItem = true;
+
+            this.createEmailMessageFunction(data);
+            
+        })
+        .catch((error) => {
+            this.error = error;
+            console.log(`Outlook.createServiceItem ERROR: ${JSON.stringify(error)}`);
+        });
+    }    
 
 
 }

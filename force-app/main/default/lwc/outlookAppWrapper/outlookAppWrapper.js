@@ -11,7 +11,7 @@ export default class OutlookAppWrapper extends LightningElement {
     @track people = {
                         'from':{
                             'name':'Reynard Duxfield',
-                            'email':'rduxfield92@instagram.com'
+                            'email':'support@salesforce.com'
                         }
                     };
     @track subject = '618864225';

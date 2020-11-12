@@ -120,4 +120,64 @@ public with sharing class LWCOutlookController {
 
   }
 
+  @AuraEnabled
+  public static Id createEmailMessage(String serviceItemId, String fromEmailAddress, String fromName, String subject, String messageBody){
+
+    EmailMessage emailMessage = new EmailMessage();
+
+    User thisUser = [SELECT Id, Email, FIrstName, LastName FROM User where Id = :UserInfo.getUserId()];
+
+    String[] toIds = new String[]{thisUser.Id}; 
+
+    emailMessage.RelatedToId = serviceItemId;
+    emailMessage.FromAddress = fromEmailAddress;
+    emailMessage.FromName = fromName;
+    emailMessage.Incoming = True;
+    emailMessage.MessageDate = Datetime.now();
+    emailMessage.LastOpenedDate = Datetime.now();
+    emailMessage.MessageDate = Datetime.now();
+    emailMessage.Subject = subject;
+    emailMessage.HtmlBody = messageBody;
+    emailMessage.toIds  = toIDs;
+    emailMessage.Status = '2';
+    emailMessage.ToAddress = thisUser.Email;
+    insert emailMessage;
+
+    EmailMessageRelation emailMessageRelationToAddress = new EmailMessageRelation();
+    emailMessageRelationToAddress.emailMessageId = emailMessage.id;
+    emailMessageRelationToAddress.relationId = thisUser.Id; // user id of the sender
+    emailMessageRelationToAddress.RelationAddress = thisUser.Email;
+    emailMessageRelationToAddress.relationType = 'ToAddress';
+    insert emailMessageRelationToAddress;
+
+    EmailMessageRelation emailMessageRelationFromAddress = new EmailMessageRelation();
+    emailMessageRelationFromAddress.emailMessageId = emailMessage.id;
+    emailMessageRelationFromAddress.RelationAddress = fromEmailAddress;
+    emailMessageRelationFromAddress.relationType = 'FromAddress';
+    insert emailMessageRelationFromAddress;
+
+    return emailMessage.Id;
+
+  }
+
+
+  @AuraEnabled
+  public static Id createServiceItem(String aNumber, Date birthDate, String countryOfOrigin, String firstName, String lastName, String gender, String portOfEntry){
+
+    service_item__c serviceItem = new service_item__c();
+
+    serviceItem.Plaintiff_A_Number__c = aNumber;
+    serviceItem.Plaintiff_Birthdate__c = birthDate;
+    serviceItem.Plantiff_Country_Of_Origin__c = countryOfOrigin;
+    serviceItem.Plaintiff_First_Name__c = firstName;
+    serviceItem.Plaintiff_Last_Name__c = lastName;
+    serviceItem.Plaintiff_Gender__c = gender;
+    serviceItem.Plaintiff_Port_of_Entry__c = portOfEntry;
+    
+    insert serviceItem;
+
+    return serviceItem.Id;
+  }
+
+
 }

@@ -31,7 +31,7 @@
                                     Based upon the from Email Address (<strong>{people.from.email}</strong>), we were able to pull the following Service Item Records from Salesforce:
                                 </div>   
                                 <template for:each={serviceItems} for:item="serviceItem">
-                                        <c-outlook-service-item-tile service-item={serviceItem} key={serviceItem.Case_Number__c}></c-outlook-service-item-tile>
+                                        <c-outlook-service-item-tile service-item={serviceItem} key={serviceItem.Case_Number__c} onserviceitembuttonclick={handleServiceItemButtonClick}></c-outlook-service-item-tile>
                                 </template>           
                             </template>
                             <template if:false={hasServiceItems}>
@@ -62,47 +62,70 @@
                         </div>
                     </lightning-accordion-section> 
                     <lightning-accordion-section name="D" label="Manual Search Results">
-                        <template if:true={performedSearch}>
-                            <lightning-card title="Salesforce Search Results">
-                                <div class="slds-var-m-around_x-small">
-                                    <template if:true={salesforceSearchCompleted}>
-                                        <template if:true={hasSalesforceResults}>
-                                            <template for:each={searchSalesforceResults} for:item="serviceItem">
-                                                <c-outlook-service-item-tile service-item={serviceItem} key={serviceItem.Case_Number__c}></c-outlook-service-item-tile>
+                            <template if:true={performedSearch}>
+                                <lightning-card title="Salesforce Search Results">
+                                    <div class="slds-var-m-around_x-small">
+                                        <template if:true={salesforceSearchCompleted}>
+                                            <template if:true={hasSalesforceResults}>
+                                                <template for:each={searchSalesforceResults} for:item="serviceItem">
+                                                    <c-outlook-service-item-tile service-item={serviceItem} key={serviceItem.Case_Number__c} onserviceitembuttonclick={handleServiceItemButtonClick}></c-outlook-service-item-tile>
+                                                </template>  
+                                            </template>
+                                        </template>
+                                        <template if:false={salesforceSearchCompleted}>
+                                            <div class="slds-is-relative" style="height:20px;">
+                                                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </lightning-card> 
+                                <lightning-card title="PCQS Search Results">
+                                    <template if:true={PCQSSearchCompleted}>
+                                        <template if:true={hasPCQSResults}>
+                                            <div class="slds-var-m-around_small">NOTE: Selecting an item from PCQS will create a new Customer Record in salesforce an associated Service Item.</div>
+                                            <template for:each={searchPCQSResults} for:item="PCQSserviceItem">
+                                                <c-outlook-pcqs-service-item-tile pcqs-service-item={PCQSserviceItem} key={PCQSserviceItem.Id} onpcqsbuttonclick={handlePCQSButtonClick}></c-outlook-pcqs-service-item-tile>
                                             </template>  
                                         </template>
-                                    </template>
-                                    <template if:false={salesforceSearchCompleted}>
+                                    </template>                                
+                                    <template if:false={PCQSSearchCompleted}>
                                         <div class="slds-is-relative" style="height:20px;">
                                             <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
                                         </div>
                                     </template>
+                                </lightning-card>                 
+                            </template>
+                            <template if:false={performedSearch}>
+                                <div class="slds-illustration slds-illustration_small" aria-hidden="true">
+                                    <img src="/img/chatter/Desert.svg" class="slds-illustration__svg" alt="" />
+                                    <h3 class="slds-text-heading_small">Please perform Search</h3>
                                 </div>
-                            </lightning-card> 
-                            <lightning-card title="PCQS Search Results">
-                                <template if:true={PCQSSearchCompleted}>
-                                    <template if:true={hasPCQSResults}>
-                                        <template for:each={searchPCQSResults} for:item="PCQSserviceItem">
-                                            <c-outlook-pcqs-service-item-tile pcqs-service-item={PCQSserviceItem} key={PCQSserviceItem.Id}></c-outlook-pcqs-service-item-tile>
-                                        </template>  
-                                    </template>
-                                </template>                                
-                                <template if:false={PCQSSearchCompleted}>
-                                    <div class="slds-is-relative" style="height:20px;">
-                                        <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
-                                    </div>
-                                </template>
-                            </lightning-card>                 
-                        </template>
-                        <template if:false={performedSearch}>
-                            <div class="slds-illustration slds-illustration_small" aria-hidden="true">
-                                <img src="/img/chatter/Desert.svg" class="slds-illustration__svg" alt="" />
-                                <h3 class="slds-text-heading_small">Please perform Search</h3>
-                            </div>
-                        </template>
+                            </template>
                     </lightning-accordion-section>
                 </lightning-accordion>
             </div>
         </div>
+        <template if:true={createdNewServiceItem}>
+            <div class="slds-card__body slds-var-m-around_x-small">
+                <div class="slds-card slds-card_boundary">
+                    <lightning-card title="Service Item Created">
+                        <div class="slds-var-m-around_small">
+                            Service Item has been created! Click <lightning-formatted-url value={newServiceItemUrl} tooltip="HERE" label="HERE"></lightning-formatted-url> to view
+                        </div>
+                    </lightning-card>
+                </div>
+            </div>
+        </template>        
+        <template if:true={createdNewEmailMessage}>
+            <div class="slds-card__body slds-var-m-around_x-small">
+                <div class="slds-card slds-card_boundary">
+                    <lightning-card title="EmailMessage Created">
+                        <div class="slds-var-m-around_small">
+                            Email Message Record has been created! Click <lightning-formatted-url value={newEmailMessageUrl} tooltip="HERE" label="HERE"></lightning-formatted-url> to view
+                        </div>
+                    </lightning-card>
+                </div>
+            </div>
+        </template>
     </div>
 </template>
