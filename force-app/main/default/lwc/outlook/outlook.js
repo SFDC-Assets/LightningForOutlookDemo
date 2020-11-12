@@ -17,6 +17,7 @@ import USER_USERNAME_FIELD from '@salesforce/schema/User.Username';
 
 
 export default class Outlook extends LightningElement {
+    
     @api messageBody;
     @api subject;
     @api people;
@@ -96,6 +97,7 @@ export default class Outlook extends LightningElement {
         }
     }
  
+
     searchFirstNameChange(event) {
         this.searchFirstName= event.target.value;
     }
@@ -108,6 +110,7 @@ export default class Outlook extends LightningElement {
         this.searchBirthDate = event.target.value;
     }
 
+   
     // Handles click on the 'Show/hide content' button
     handleSearch() {
         this.performedSearch = true;

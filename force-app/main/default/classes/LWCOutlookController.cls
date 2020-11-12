@@ -127,21 +127,34 @@ public with sharing class LWCOutlookController {
 
     User thisUser = [SELECT Id, Email, FIrstName, LastName FROM User where Id = :UserInfo.getUserId()];
 
-    List<ID> toIDs = new List<ID>();
-    toIDs.add(thisUser.Id);
+    String[] toIds = new String[]{thisUser.Id}; 
 
     emailMessage.RelatedToId = serviceItemId;
     emailMessage.FromAddress = fromEmailAddress;
     emailMessage.FromName = fromName;
-    emailMessage.Incoming = False;
+    emailMessage.Incoming = True;
+    emailMessage.MessageDate = Datetime.now();
+    emailMessage.LastOpenedDate = Datetime.now();
     emailMessage.MessageDate = Datetime.now();
     emailMessage.Subject = subject;
-    emailMessage.TextBody = messageBody;
     emailMessage.HtmlBody = messageBody;
     emailMessage.toIds  = toIDs;
+    emailMessage.Status = '2';
     emailMessage.ToAddress = thisUser.Email;
-    
     insert emailMessage;
+
+    EmailMessageRelation emailMessageRelationToAddress = new EmailMessageRelation();
+    emailMessageRelationToAddress.emailMessageId = emailMessage.id;
+    emailMessageRelationToAddress.relationId = thisUser.Id; // user id of the sender
+    emailMessageRelationToAddress.RelationAddress = thisUser.Email;
+    emailMessageRelationToAddress.relationType = 'ToAddress';
+    insert emailMessageRelationToAddress;
+
+    EmailMessageRelation emailMessageRelationFromAddress = new EmailMessageRelation();
+    emailMessageRelationFromAddress.emailMessageId = emailMessage.id;
+    emailMessageRelationFromAddress.RelationAddress = fromEmailAddress;
+    emailMessageRelationFromAddress.relationType = 'FromAddress';
+    insert emailMessageRelationFromAddress;
 
     return emailMessage.Id;
 

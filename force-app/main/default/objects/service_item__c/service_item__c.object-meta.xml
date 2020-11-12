@@ -162,7 +162,11 @@
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Service Items</pluralLabel>
-    <searchLayouts/>
+    <searchLayouts>
+        <searchResultsAdditionalFields>Plaintiff_A_Number__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Plaintiff_First_Name__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Plaintiff_Last_Name__c</searchResultsAdditionalFields>
+    </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>
