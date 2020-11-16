@@ -123,6 +123,9 @@ Date of Birth: 02/08/1955
 
 ```text
 Subject: Jarred Peplay
+
+Message Body:
+
 Hi,
 I am the legal aid for Cochran, Cochran, and Cochran associates. Can you please provide updates on our client Jarred Peplay. Here is the information I have:
 
