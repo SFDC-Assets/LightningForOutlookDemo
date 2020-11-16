@@ -6,11 +6,25 @@ This Repository is a fully packaged Demo Scenario focused on showing off the fea
 
 ## Overview
 
-- This does the following...
+This Repository is a "partially" self-contained demo repository that demonstrates the following:
+
+- Ability for a Custom Lightning Web Component (LWC) to be embedded into Microsoft Outlook leveraging Lightning For Outlook (LFO)
+- Ability for a Custom Lightning Web Component (LWC) embedded into Microsoft Outlook to associate Emails with Salesforce Records
+- Ability for a Custom Lightning Web Component (LWC) embedded into Microsoft Outlook to pull information from an Email in Read Mode
+- Ability for a Custom Lightning Web Component (LWC) embedded into Microsoft Outlook to pull data from an external data source via an API
+
+## About Lightning for Outlook (LFO)
+
+Lightning for Outlook is the ability for you to embed Salesforce capabilities into Microsoft Outlook (Including Office 365!). Read more [HERE](https://help.salesforce.com/articleView?id=app_for_outlook_setup_parent.htm&type=5).
 
 ## What does this include
 
-- This does the following...
+- Lightning Web Component that can be embedded into an Outlook Flexipage.
+- Custom Objects for Internal and External Searching.
+- Lightning App that allows you to demonstrate capability without actually setting up Office 365.
+- Apex based Rest API
+- Salesforce Community. This is only used to enable a guest user profile to enable API access.
+- Data (Assuming you are installing via GPBU-Deployer)
 
 ## Prior to Installation
 
@@ -26,7 +40,7 @@ Setup -> Communities Settings -> Enable ExperienceBundle Metadata API (Must be c
 
 ## Installation
 
-[CLICK HERE TO INSTALL](https://gpbu-deployer.herokuapp.com/byoo?template=https://github.com/SFDC-Assets/uscis-outlook-lwc) (v0.6.0-1) (Beta)
+[CLICK HERE TO INSTALL](https://gpbu-deployer.herokuapp.com/byoo?template=https://github.com/SFDC-Assets/LightningForOutlookDemo)
 
 *Note: this is currently only available as Source Installable via the GPBU Deployer.
 
@@ -61,41 +75,19 @@ First and foremost, If you don't feel like doing all the Office 365 Setup (Or po
 
 ### Demo Prep
 
-The Lightning Web component grabs data directly from open emails, so it is more impactful if it brings back records. The trick is to update a few Service_Item__c records to have an email address (Attorney_Email__c) you can readily send emails from.
+The Lightning Web component grabs data directly from open emails, so it is more impactful if it brings back records. The trick is to update a few Service_Item__c records to have an email address (Attorney_Email__c) you can readily send emails from. You can do this by opening up the LFO_Demo App and clicking on the Service Item tab.
 
 ## Demo Workflow
 
-The demo consists of 3 major scenarios. Each is outlined below
+The demo consists of 3 major scenarios. Each is outlined below.
 
-### Auto Search
+### Automatic Search
 
 | Number | Talk Track | Actions |
 |--------|------------|---------|
 | 1      | Blah       | Blah    |
 | 2      | Blah       | Blah    |
 | 3      | Blah       | Blah    |
-
-
-#### Generic Email Example
-
-Here is the generic email that I send to myself to kick off the demo.
-
-```bash
-Subject: Jarred Peplay
-Hi,
-I am the legal aid for Cochran, Cochran, and Cochran associates. Can you please provide updates on our client Jarred Peplay. Here is the information I have:
-
-- Name: Jarred Peplay
-- A Number: 857925175
-- Date of Birth: 02/08/1955
-- Birth Country: Madagascar
-
-Thanks,
-{Your Name}
-Legal Aid
-Cochran, Cochran, and Cochran associates
-(222) 222-2222
-```
 
 ### Manual Search
 
@@ -117,6 +109,13 @@ Date of Birth: 02/08/1955
 | 2      | Blah       | Blah    |
 | 3      | Blah       | Blah    |
 
+### Standard Components and Attachments
+
+| Number | Talk Track | Actions |
+|--------|------------|---------|
+| 1      | Blah       | Blah    |
+| 2      | Blah       | Blah    |
+| 3      | Blah       | Blah    |
 
 ### Generic Email Example
 
