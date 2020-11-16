@@ -97,9 +97,11 @@ The demo consists of 3 major scenarios. Each is outlined below.
 | 2      | Blah       | Blah    |
 | 3      | Blah       | Blah    |
 
+```text
 First Name: Jarred
 Last Name: Peplay
 Date of Birth: 02/08/1955
+```
 
 ### Search Results and Creating new Service Items
 
@@ -119,7 +121,7 @@ Date of Birth: 02/08/1955
 
 ### Generic Email Example
 
-```bash
+```text
 Subject: Jarred Peplay
 Hi,
 I am the legal aid for Cochran, Cochran, and Cochran associates. Can you please provide updates on our client Jarred Peplay. Here is the information I have:
