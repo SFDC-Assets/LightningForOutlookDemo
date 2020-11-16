@@ -21,7 +21,7 @@ Lightning for Outlook is the ability for you to embed Salesforce capabilities in
 
 - Lightning Web Component that can be embedded into an Outlook Flexipage.
 - Custom Objects for Internal and External Searching.
-- Lightning App that allows you to demonstrate capability without actually setting up Office 365.
+- Lightning App that allows you to demonstrate/test capability without Office 365 (aka, if it works here, it should work in Outlook), as well as provides access to the custom objects.
 - Apex based Rest API
 - Salesforce Community. This is only used to enable a guest user profile to enable API access.
 - Data (Assuming you are installing via GPBU-Deployer)
