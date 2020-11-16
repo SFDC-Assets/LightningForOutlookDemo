@@ -13,6 +13,8 @@ This Repository is a "partially" self-contained demo repository that demonstrate
 - Ability for a Custom Lightning Web Component (LWC) embedded into Microsoft Outlook to pull information from an Email in Read Mode
 - Ability for a Custom Lightning Web Component (LWC) embedded into Microsoft Outlook to pull data from an external data source via an API
 
+*Note: This demo currently has an immigration/legal flavor to it. I intend to generalize this in the future.*
+
 ## About Lightning for Outlook (LFO)
 
 Lightning for Outlook is the ability for you to embed Salesforce capabilities into Microsoft Outlook (Including Office 365!). Read more [HERE](https://help.salesforce.com/articleView?id=app_for_outlook_setup_parent.htm&type=5).
