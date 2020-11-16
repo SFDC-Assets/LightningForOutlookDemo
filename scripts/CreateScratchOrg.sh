@@ -1,9 +1,6 @@
 echo "*** Creating scratch org ..."
 sfdx force:org:create -f config/project-scratch-def.json --setdefaultusername --setalias USCISOutlookLWCScratch -d 30
 
-echo "*** Opening scratch org ..."
-#sfdx force:org:open
-
 echo "*** Pushing metadata to scratch org ..."
 sfdx force:source:push
 
@@ -22,7 +19,10 @@ sfdx shane:data:tree:import -p data/export-demo-PCQS_Service_Item__c-plan.json -
 #sfdx force:user:password:generate --targetusername outlook-user
 
 echo "*** Setting up debug mode..."
-sfdx force:apex:execute -f scripts/apex/DebugMode.apex
+sfdx force:apex:execute -f scripts/apex/setDebugMode.apex
+
+echo "*** Setting up Remote Site Settings..."
+sfdx force:apex:execute -f scripts/apex/createRemoteSiteSettings.apex
 
 echo "*** Opening Org"
 sfdx force:org:open -p /lightning/n/LFO_Demo

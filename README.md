@@ -24,6 +24,7 @@ Lightning for Outlook is the ability for you to embed Salesforce capabilities in
 - Lightning App that allows you to demonstrate/test capability without Office 365 (aka, if it works here, it should work in Outlook), as well as provides access to the custom objects.
 - Apex based Rest API
 - Salesforce Community. This is only used to enable a guest user profile to enable API access.
+- Remote Site Settings (Assuming you are installing via GPBU-Deployer)
 - Data (Assuming you are installing via GPBU-Deployer)
 
 ## Prior to Installation
@@ -46,7 +47,9 @@ Setup -> Communities Settings -> Enable ExperienceBundle Metadata API (Must be c
 
 ## Post Installation Setup Tasks
 
-### Add a Remote Site
+### Add a Remote Site (If not deployed with GPBU-Deployer)
+
+Because we are doing a Rest API Call, we need to enable access to the endpoint via the creation of a Remote Site Setting. This is done automatically if you leverage the GPBU-Deployer, but should something not work, you must create one manually.
 
 1. Get your salesforce site domain name from Setup -> Sites (Example: sandbox-energy-saas-93462-dev-ed-175b99744ef.cs97.force.com)
 2. Add a new Remote Site (Setup -> Remote Site Settings -> New) that allows access to your site.

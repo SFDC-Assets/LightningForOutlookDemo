@@ -12,3 +12,4 @@ package.xml
 **/__tests__/**
 
 **/AppSwitcher.appMenu
+force-app/main/default/flexipages/Email_Application_Pane_Default.flexipage-meta.xml
