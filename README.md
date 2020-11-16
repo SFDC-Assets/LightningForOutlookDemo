@@ -2,8 +2,6 @@
 
 ![Outlook Screenshot](/readme-assets/outlook-screenshot.png)
 
-This Repository is a fully packaged Demo Scenario focused on showing off the features of Lightning for Outlook (LFO). It enables a user to 
-
 ## Overview
 
 This Repository is a "partially" self-contained demo repository that demonstrates the following:
