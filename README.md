@@ -2,6 +2,7 @@
 
 ![Outlook Screenshot](/readme-assets/outlook-screenshot.png)
 
+
 ## Overview
 
 This Repository is a "partially" self-contained demo repository that demonstrates the following:
